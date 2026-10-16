@@ -18,7 +18,7 @@ interface Props {
 
 const { title, description = siteDescription, path, noindex = false, jsonLd } = Astro.props;
 const canonical = absoluteUrl(Astro.site, path);
-const image = absoluteUrl(Astro.site, '/og.png');
+const image = absoluteUrl(Astro.site, '/og-image.png');
 const newsletterStatus = Astro.url.searchParams.get('newsletter');
 ---
 
@@ -31,12 +31,12 @@ const newsletterStatus = Astro.url.searchParams.get('newsletter');
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="pt-BR" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
-    <link rel="preconnect" href="https://www.google.com" />
-    <link rel="preconnect" href="https://t3.gstatic.com" crossorigin />
     <script is:inline>
       try {
         var tema = localStorage.getItem('guia-tema');

@@ -52,6 +52,7 @@ Abra `src/data/tools.json` e acrescente um objeto. Não invente preço: deixe `p
 - A seção “Novos lançamentos” mostra as últimas entradas deste arquivo. Acrescente a ferramenta no fim da lista para ela aparecer ali.
 - Uma categoria nova ganha página em `/categoria/...` sozinha. Para trocar o texto de apoio, edite [`src/data/categories.ts`](src/data/categories.ts). Sem esse texto, a página usa uma frase genérica.
 - O site não mostra `preco_inicial`, `http_status` nem `fonte`.
+- O ícone de cada ferramenta fica em `public/icons`, servido pelo próprio site. Depois de acrescentar uma ferramenta, rode `npm run icons` para baixar o favicon e commitar o arquivo. Se o arquivo não existir, o card mostra as iniciais.
 
 ## Variáveis de ambiente
 

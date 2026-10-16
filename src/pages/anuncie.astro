@@ -1,6 +1,6 @@
 ---
 import Breadcrumb from '../components/Breadcrumb.astro';
-import { contactEmail, contactMailto, siteName } from '../config';
+import { contactEmail, contactMailto, siteName, sponsorCheckoutHref } from '../config';
 import { pitchBody, pitchSubject, sponsorPlans } from '../data/sponsors';
 import Base from '../layouts/Base.astro';
 import { absoluteUrl, breadcrumbLd } from '../lib/seo';
@@ -51,20 +51,36 @@ const jsonLd = {
           <tr>
             <th scope="col">Formato</th>
             <th scope="col">Preço</th>
+            <th scope="col"><span class="sr-only">Contratar</span></th>
           </tr>
         </thead>
         <tbody>
           {
-            sponsorPlans.map((plan) => (
-              <tr>
-                <td>{plan.formato}</td>
-                <td class="price">{plan.preco}</td>
-              </tr>
-            ))
+            sponsorPlans.map((plan) => {
+              const checkout = sponsorCheckoutHref(plan.id);
+              return (
+                <tr>
+                  <td>{plan.formato}</td>
+                  <td class="price">{plan.preco}</td>
+                  <td class="plan-action">
+                    {checkout ? (
+                      <a class="button button-compact" href={checkout} rel="noopener noreferrer">
+                        Contratar
+                      </a>
+                    ) : (
+                      <a class="button button-compact" href={contactMailto(`Patrocínio: ${plan.formato}`)}>
+                        Fale com a gente
+                      </a>
+                    )}
+                  </td>
+                </tr>
+              );
+            })
           }
         </tbody>
       </table>
     </div>
+    <p class="note">Pagamento por cartão ou Pix (Pix indisponível no plano mensal).</p>
     <p class="note">
       O banner do topo e o card “Seu anúncio aqui” nas listagens são os espaços reservados para a listagem destacada e o
       patrocínio de categoria.

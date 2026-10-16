@@ -1,13 +1,16 @@
+import type { SponsorPlanId } from '../config';
+
 export interface SponsorPlan {
+  id: SponsorPlanId;
   formato: string;
   preco: string;
 }
 
 export const sponsorPlans: SponsorPlan[] = [
-  { formato: 'Listagem destacada na categoria (30 dias)', preco: 'R$ 290' },
-  { formato: 'Patrocínio de 1 edição da newsletter', preco: 'R$ 490' },
-  { formato: 'Patrocinador da categoria (1 por categoria, mensal)', preco: 'R$ 990' },
-  { formato: 'Pacote fundador (listagem + 4 edições)', preco: 'R$ 1.490' },
+  { id: 'destaque', formato: 'Listagem destacada na categoria (30 dias)', preco: 'R$ 290' },
+  { id: 'newsletter', formato: 'Patrocínio de 1 edição da newsletter', preco: 'R$ 490' },
+  { id: 'categoria', formato: 'Patrocinador da categoria (1 por categoria, mensal)', preco: 'R$ 990/mês' },
+  { id: 'fundador', formato: 'Pacote fundador (listagem + 4 edições)', preco: 'R$ 1.490' },
 ];
 
 export const pitchSubject =

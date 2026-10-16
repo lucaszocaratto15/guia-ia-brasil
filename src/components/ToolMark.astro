@@ -1,4 +1,6 @@
 ---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { faviconUrl, initials } from '../lib/format';
 
 interface Props {
@@ -7,17 +9,23 @@ interface Props {
 }
 
 const { nome, dominio } = Astro.props;
+const src = faviconUrl(dominio);
+const fileName = src.slice('/icons/'.length);
+const hasIcon = existsSync(join(process.cwd(), 'public', 'icons', fileName));
 ---
 
-<span class="mark" data-initials={initials(nome)} aria-hidden="true">
-  <img
-    class="favicon"
-    src={faviconUrl(dominio)}
-    alt=""
-    width="64"
-    height="64"
-    loading="lazy"
-    decoding="async"
-    referrerpolicy="no-referrer"
-  />
+<span class:list={['mark', { 'is-fallback': !hasIcon }]} data-initials={initials(nome)} aria-hidden="true">
+  {
+    hasIcon && (
+      <img
+        class="favicon"
+        src={src}
+        alt=""
+        width="64"
+        height="64"
+        loading="lazy"
+        decoding="async"
+      />
+    )
+  }
 </span>

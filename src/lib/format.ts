@@ -49,7 +49,12 @@ export function formatDate(iso: string): string {
 }
 
 export function faviconUrl(domain: string): string {
-  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`;
+  const safe = domain
+    .toLowerCase()
+    .replace(/[^a-z0-9.-]/g, '')
+    .replace(/^\.+/, '')
+    .replace(/\.{2,}/g, '.');
+  return `/icons/${safe}.png`;
 }
 
 export function hostname(url: string): string {
