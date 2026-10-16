@@ -1,0 +1,86 @@
+---
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { contactEmail, contactMailto, siteName } from '../config';
+import { pitchBody, pitchSubject, sponsorPlans } from '../data/sponsors';
+import Base from '../layouts/Base.astro';
+import { absoluteUrl, breadcrumbLd } from '../lib/seo';
+
+const path = '/anuncie';
+const title = `Anuncie | ${siteName}`;
+const description =
+  'Patrocine o Guia IA Brasil e fale com contadores e donos de PME que estão escolhendo ferramentas de IA.';
+const mailto = contactMailto(pitchSubject, pitchBody);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      name: title,
+      description,
+      url: absoluteUrl(Astro.site, path),
+      inLanguage: 'pt-BR',
+    },
+    breadcrumbLd([
+      { name: 'Início', url: absoluteUrl(Astro.site, '/') },
+      { name: 'Anuncie', url: absoluteUrl(Astro.site, path) },
+    ]),
+  ],
+};
+---
+
+<Base title={title} description={description} path={path} jsonLd={jsonLd}>
+  <div class="wrap page-head prose">
+    <Breadcrumb items={[{ name: 'Início', href: '/' }, { name: 'Anuncie' }]} />
+    <p class="eyebrow">Patrocínio</p>
+    <h1>Fale direto com contadores e donos de PME que estão adotando IA</h1>
+    <p class="lede">
+      O Guia IA Brasil é um diretório e uma newsletter semanal de ferramentas de IA para contadores e PMEs brasileiras.
+      Quem lê está escolhendo ferramenta agora.
+    </p>
+    <p>
+      78% dos contadores já usam IA toda semana e 68% não têm capacitação (IOB/CFC/Fenacon, 2026).
+    </p>
+
+    <h2>Formatos e preços</h2>
+    <div class="table-wrap">
+      <table>
+        <caption>
+          Tabela inicial estimada. Os valores devem ser revisados conforme a audiência.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Formato</th>
+            <th scope="col">Preço</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            sponsorPlans.map((plan) => (
+              <tr>
+                <td>{plan.formato}</td>
+                <td class="price">{plan.preco}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      O banner do topo e o card “Seu anúncio aqui” nas listagens são os espaços reservados para a listagem destacada e o
+      patrocínio de categoria.
+    </p>
+
+    <h2>Texto de abordagem</h2>
+    <blockquote class="pitch">
+      <p><strong>Assunto:</strong> {pitchSubject}</p>
+      <p>{pitchBody}</p>
+    </blockquote>
+
+    <h2>Contato</h2>
+    <p>Escreva para combinar o formato e o mês. Uma conversa de 15 minutos basta para começar.</p>
+    <p class="actions">
+      <a class="button" href={mailto}>Falar sobre patrocínio</a>
+    </p>
+    <p class="note">Contato: <a href={mailto}>{contactEmail}</a></p>
+  </div>
+</Base>

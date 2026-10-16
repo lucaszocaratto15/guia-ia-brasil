@@ -1,0 +1,65 @@
+---
+import { categories, tools } from '../data/tools';
+import SponsorCard from './SponsorCard.astro';
+import ToolCard from './ToolCard.astro';
+---
+
+<section class="directory" id="diretorio" aria-labelledby="lista-titulo">
+  <h2 id="lista-titulo" class="sr-only">Ferramentas</h2>
+  <form id="form-busca" class="search" action="/" method="get" role="search">
+    <label class="sr-only" for="busca">Buscar ferramenta</label>
+    <input
+      id="busca"
+      name="busca"
+      type="search"
+      placeholder="Buscar por nome, categoria ou o que a ferramenta faz"
+      autocomplete="off"
+      enterkeyhint="search"
+    />
+    <button type="submit">Buscar</button>
+  </form>
+  <noscript>
+    <p class="note">A busca e os filtros usam JavaScript. As categorias no fim da página funcionam sem ele.</p>
+  </noscript>
+  <div class="filters">
+    <div class="chips" role="group" aria-label="Filtrar por categoria">
+      <button type="button" data-chip data-category="" aria-pressed="true">Todas</button>
+      {
+        categories.map((category) => (
+          <button type="button" data-chip data-category={category.slug} aria-pressed="false">
+            {category.nome}
+          </button>
+        ))
+      }
+    </div>
+    <div class="toggles" role="group" aria-label="Filtrar por origem e idioma">
+      <button type="button" data-filter="brasil" aria-pressed="false">Feito no Brasil</button>
+      <button type="button" data-filter="portugues" aria-pressed="false">Em português</button>
+    </div>
+  </div>
+  <div class="result-bar">
+    <p id="contagem" aria-live="polite">{tools.length} ferramentas</p>
+    <button type="button" id="limpar" class="ghost" hidden>Limpar filtros</button>
+  </div>
+  <ul class="grid" id="lista">
+    <SponsorCard />
+    {
+      tools.map((tool) => (
+        <li
+          class="tool-item"
+          data-category={tool.categoriaSlug}
+          data-brasil={tool.brasileira ? '1' : '0'}
+          data-portugues={tool.portugues ? '1' : '0'}
+        >
+          <ToolCard tool={tool} />
+        </li>
+      ))
+    }
+  </ul>
+  <p id="vazio" class="empty" hidden>
+    Nenhuma ferramenta com esses filtros. <a href="/sugerir">Sugira uma ferramenta</a> se ela ainda não está no guia.
+  </p>
+</section>
+<script>
+  import '../scripts/directory.ts';
+</script>

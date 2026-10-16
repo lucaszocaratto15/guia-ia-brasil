@@ -1,0 +1,25 @@
+---
+interface Props {
+  brasileira: boolean;
+  portugues: boolean;
+}
+
+const { brasileira, portugues } = Astro.props;
+---
+
+{
+  (brasileira || portugues) && (
+    <ul class="badges">
+      {brasileira && (
+        <li>
+          <span class="badge badge-br">Feito no Brasil</span>
+        </li>
+      )}
+      {portugues && (
+        <li>
+          <span class="badge badge-pt">Em português</span>
+        </li>
+      )}
+    </ul>
+  )
+}

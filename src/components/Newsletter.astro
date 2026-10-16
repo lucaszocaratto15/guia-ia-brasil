@@ -1,0 +1,47 @@
+---
+import { isNewsletterStatus, newsletterMessages } from '../lib/newsletter';
+
+interface Props {
+  status?: string | null;
+}
+
+const { status = null } = Astro.props;
+const message = isNewsletterStatus(status) ? newsletterMessages[status] : '';
+---
+
+<section class="newsletter" id="newsletter" aria-labelledby="newsletter-titulo">
+  <div class="wrap">
+    <p class="kicker">Newsletter</p>
+    <h2 id="newsletter-titulo">Uma seleção curta, toda semana</h2>
+    <p class="lede">
+      Ferramentas de IA úteis para contadores e donos de PME. Sem ranking genérico e sem encher a caixa de entrada.
+    </p>
+    <form class="newsletter-form" data-newsletter method="post" action="/api/subscribe">
+      <label>
+        <span>E-mail</span>
+        <input
+          id="newsletter-email"
+          name="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          maxlength="254"
+          required
+          placeholder="voce@empresa.com.br"
+        />
+      </label>
+      <div class="sr-only" aria-hidden="true">
+        <label>
+          Fax
+          <input name="fax" type="text" tabindex="-1" autocomplete="off" />
+        </label>
+      </div>
+      <button type="submit">Quero receber</button>
+      <p class="form-status" data-newsletter-status role="status">{message}</p>
+    </form>
+    <p class="fine">Usamos seu e-mail só para enviar a newsletter.</p>
+  </div>
+</section>
+<script>
+  import '../scripts/newsletter.ts';
+</script>

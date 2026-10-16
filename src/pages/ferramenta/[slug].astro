@@ -1,0 +1,132 @@
+---
+import Badges from '../../components/Badges.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { siteName } from '../../config';
+import { getTool, relatedTools, tools } from '../../data/tools';
+import { initials } from '../../lib/format';
+import Base from '../../layouts/Base.astro';
+import { absoluteUrl, breadcrumbLd } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({ params: { slug: tool.slug } }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) throw new Error('Ferramenta sem slug.');
+const tool = getTool(slug);
+if (!tool) throw new Error(`Ferramenta não encontrada: ${slug}`);
+
+const path = `/ferramenta/${tool.slug}`;
+const canonical = absoluteUrl(Astro.site, path);
+const home = absoluteUrl(Astro.site, '/');
+const categoryUrl = absoluteUrl(Astro.site, `/categoria/${tool.categoriaSlug}`);
+const title = `${tool.nome} — ${tool.categoria} | ${siteName}`;
+const description = tool.descricao;
+const related = relatedTools(tool);
+
+const software: Record<string, unknown> = {
+  '@type': 'SoftwareApplication',
+  name: tool.nome,
+  description: tool.descricao,
+  url: tool.urlFinal,
+  applicationCategory: tool.categoria,
+};
+
+if (tool.portugues) software.inLanguage = 'pt-BR';
+if (tool.brasileira) {
+  software.countryOfOrigin = { '@type': 'Country', name: 'Brasil' };
+}
+
+const webPage: Record<string, unknown> = {
+  '@type': 'WebPage',
+  name: title,
+  description,
+  url: canonical,
+  inLanguage: 'pt-BR',
+  isPartOf: { '@type': 'WebSite', name: siteName, url: home },
+  mainEntity: software,
+};
+
+if (tool.verificadoEm) webPage.dateModified = tool.verificadoEm;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    webPage,
+    breadcrumbLd([
+      { name: 'Início', url: home },
+      { name: tool.categoria, url: categoryUrl },
+      { name: tool.nome, url: canonical },
+    ]),
+  ],
+};
+---
+
+<Base title={title} description={description} path={path} jsonLd={jsonLd}>
+  <div class="wrap page-head">
+    <Breadcrumb
+      items={[
+        { name: 'Início', href: '/' },
+        { name: tool.categoria, href: `/categoria/${tool.categoriaSlug}` },
+        { name: tool.nome },
+      ]}
+    />
+    <article class="sheet">
+      <p class="eyebrow">Ferramenta</p>
+      <div class="card-top">
+        <span class="avatar" aria-hidden="true">{initials(tool.nome)}</span>
+        <h1>{tool.nome}</h1>
+      </div>
+      <Badges brasileira={tool.brasileira} portugues={tool.portugues} />
+      <p class="lede">{tool.descricao}</p>
+      <dl class="facts">
+        <div>
+          <dt>Categoria</dt>
+          <dd><a href={`/categoria/${tool.categoriaSlug}`}>{tool.categoria}</a></dd>
+        </div>
+        <div>
+          <dt>Site oficial</dt>
+          <dd>
+            <a href={tool.urlFinal} target="_blank" rel="noopener noreferrer">{tool.dominio}</a>
+          </dd>
+        </div>
+        {
+          tool.verificadoEmLabel && (
+            <div>
+              <dt>Conferido em</dt>
+              <dd>
+                <time datetime={tool.verificadoEm}>{tool.verificadoEmLabel}</time>
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+      <p class="note">Preço não informado neste guia.</p>
+      <p class="actions">
+        <a class="button" href={tool.urlFinal} target="_blank" rel="noopener noreferrer">
+          Visitar site<span class="sr-only"> de {tool.nome} (abre em nova aba)</span>
+        </a>
+      </p>
+    </article>
+    {
+      related.length > 0 && (
+        <section aria-labelledby="relacionadas-titulo">
+          <h2 id="relacionadas-titulo" class="section-title">
+            Outras em {tool.categoria}
+          </h2>
+          <ul class="grid">
+            {related.map((item) => (
+              <li>
+                <ToolCard tool={item} level="h3" />
+              </li>
+            ))}
+          </ul>
+          <p>
+            <a href={`/categoria/${tool.categoriaSlug}`}>Ver a categoria inteira</a>
+          </p>
+        </section>
+      )
+    }
+  </div>
+</Base>

@@ -1,0 +1,51 @@
+---
+const path = Astro.url.pathname;
+const links = [
+  { href: '/', label: 'Início', current: path === '/' },
+  { href: '/#categorias', label: 'Categorias', current: false },
+  { href: '/anuncie', label: 'Anuncie', current: path === '/anuncie' },
+  { href: '/sugerir', label: 'Sugerir', current: path === '/sugerir' },
+  { href: '#newsletter', label: 'Newsletter', current: false },
+];
+---
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/">
+      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#f6f1e7"></rect>
+        <path fill="#11493a" d="M11 7.2h10c.9 0 1.6.7 1.6 1.6v15.4l-6.6-3.4-6.6 3.4V8.8c0-.9.7-1.6 1.6-1.6z"></path>
+      </svg>
+      <span>Guia IA <em>Brasil</em></span>
+    </a>
+    <nav class="nav-desktop" aria-label="Principal">
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={link.current ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+    <details class="nav-mobile">
+      <summary class="nav-summary">Menu</summary>
+      <nav class="nav-panel" aria-label="Principal">
+        {
+          links.map((link) => (
+            <a href={link.href} aria-current={link.current ? 'page' : undefined}>
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
+  </div>
+</header>
+<script>
+  const menu = document.querySelector('.nav-mobile');
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      if (menu instanceof HTMLDetailsElement) menu.open = false;
+    });
+  });
+</script>
