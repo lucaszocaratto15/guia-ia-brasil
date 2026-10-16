@@ -13,3 +13,25 @@ export function contactMailto(subject: string, body?: string): string {
   if (body) query.push(`body=${encodeURIComponent(body)}`);
   return `mailto:${contactEmail}?${query.join('&')}`;
 }
+
+export type SponsorPlanId = 'destaque' | 'newsletter' | 'categoria' | 'fundador';
+
+export const sponsorPaymentLinks: Record<SponsorPlanId, string> = {
+  destaque: 'https://buy.stripe.com/aFa5kDbQHfxs5QOdQwdjO00',
+  newsletter: 'https://buy.stripe.com/3cIdR93kbbhc5QOaEkdjO01',
+  categoria: 'https://buy.stripe.com/00w4gz07Z4SO6US9AgdjO03',
+  fundador: 'https://buy.stripe.com/cNieVd1c32KG5QO13KdjO02',
+};
+
+/** URL https do plano, ou null quando o link está vazio (o botão vira "Fale com a gente"). */
+export function sponsorCheckoutHref(id: SponsorPlanId): string | null {
+  const value = (sponsorPaymentLinks[id] ?? '').trim();
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:') return null;
+    return url.href;
+  } catch {
+    return null;
+  }
+}
