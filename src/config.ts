@@ -16,16 +16,35 @@ export function contactMailto(subject: string, body?: string): string {
 
 export type SponsorPlanId = 'destaque' | 'newsletter' | 'categoria' | 'fundador';
 
-export const sponsorPaymentLinks: Record<SponsorPlanId, string> = {
-  destaque: 'https://buy.stripe.com/aFa5kDbQHfxs5QOdQwdjO00',
-  newsletter: 'https://buy.stripe.com/3cIdR93kbbhc5QOaEkdjO01',
-  categoria: 'https://buy.stripe.com/00w4gz07Z4SO6US9AgdjO03',
-  fundador: 'https://buy.stripe.com/cNieVd1c32KG5QO13KdjO02',
+export interface SponsorOffer {
+  preco: string;
+  url: string;
+  rotulo?: string;
+}
+
+export const sponsorOffers: Record<SponsorPlanId, SponsorOffer> = {
+  destaque: {
+    preco: 'R$ 49',
+    url: 'https://buy.stripe.com/fZudR98Ev8505QO9AgdjO04',
+  },
+  newsletter: {
+    preco: 'R$ 79',
+    url: 'https://buy.stripe.com/4gM9AT1c35WScfcdQwdjO05',
+  },
+  categoria: {
+    preco: 'R$ 149/mês (cartão)',
+    url: 'https://buy.stripe.com/7sY4gz9Izbhc7YWdQwdjO07',
+  },
+  fundador: {
+    preco: 'R$ 197',
+    url: 'https://buy.stripe.com/5kQ14ndYP2KGenk8wcdjO06',
+    rotulo: 'Oferta para os 5 primeiros',
+  },
 };
 
 /** URL https do plano, ou null quando o link está vazio (o botão vira "Fale com a gente"). */
 export function sponsorCheckoutHref(id: SponsorPlanId): string | null {
-  const value = (sponsorPaymentLinks[id] ?? '').trim();
+  const value = (sponsorOffers[id]?.url ?? '').trim();
   if (!value) return null;
   try {
     const url = new URL(value);
