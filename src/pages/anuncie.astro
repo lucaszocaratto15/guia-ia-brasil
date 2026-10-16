@@ -60,7 +60,10 @@ const jsonLd = {
               const checkout = sponsorCheckoutHref(plan.id);
               return (
                 <tr>
-                  <td>{plan.formato}</td>
+                  <td>
+                    {plan.formato}
+                    {plan.rotulo && <span class="plan-label">{plan.rotulo}</span>}
+                  </td>
                   <td class="price">{plan.preco}</td>
                   <td class="plan-action">
                     {checkout ? (
