@@ -969,5 +969,57 @@
   "preco_inicial": null,
   "fonte": "https://ramp.com",
   "verificado_em": "2026-10-15"
+ },
+ {
+  "nome": "Makro (Makrosystem)",
+  "url": "https://www.makrosystem.com.br",
+  "url_final": "https://makrosystem.com.br/",
+  "http_status": 200,
+  "categoria": "Contabilidade e Escritório Contábil",
+  "descricao": "Sistema contábil 100% online com a Gi (gestora inteligente de IA) para análises, obrigações e rotinas de escritório.",
+  "portugues": true,
+  "brasileira": true,
+  "preco_inicial": null,
+  "fonte": "https://www.makrosystem.com.br",
+  "verificado_em": "2026-10-16"
+ },
+ {
+  "nome": "Nottai",
+  "url": "https://nottai.com.br",
+  "url_final": "https://nottai.com.br/",
+  "http_status": 200,
+  "categoria": "Fiscal e Tributário",
+  "descricao": "Emissor de NF-e/NFS-e/NFC-e com IA que sugere códigos fiscais a partir de texto, áudio ou foto; foco em MEI e pequenas empresas.",
+  "portugues": true,
+  "brasileira": true,
+  "preco_inicial": null,
+  "fonte": "https://nottai.com.br",
+  "verificado_em": "2026-10-16"
+ },
+ {
+  "nome": "SCI Sistemas Contábeis",
+  "url": "https://www.sci.com.br",
+  "url_final": "https://www.sci.com.br/",
+  "http_status": 200,
+  "categoria": "Contabilidade e Escritório Contábil",
+  "descricao": "Sistemas contábeis brasileiros com IAT (Inteligência Artificial Tributária), automação fiscal e extrato bancário inteligente.",
+  "portugues": true,
+  "brasileira": true,
+  "preco_inicial": null,
+  "fonte": "https://www.sci.com.br",
+  "verificado_em": "2026-10-16"
+ },
+ {
+  "nome": "IrisGo",
+  "url": "https://irisgo.ai",
+  "url_final": "https://irisgo.ai/",
+  "http_status": 200,
+  "categoria": "Automação e Agentes",
+  "descricao": "Agente de IA que observa fluxos no computador e automatiza rotinas de trabalho (estilo assistente executivo).",
+  "portugues": false,
+  "brasileira": false,
+  "preco_inicial": null,
+  "fonte": "https://irisgo.ai",
+  "verificado_em": "2026-10-16"
  }
 ]
