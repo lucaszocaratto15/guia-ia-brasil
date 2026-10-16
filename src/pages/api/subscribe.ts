@@ -5,6 +5,13 @@ import {
   normalizeEmail,
   type NewsletterStatus,
 } from '../../lib/newsletter';
+import {
+  SUBSCRIBE_EMAIL_LIMIT,
+  SUBSCRIBE_IP_LIMIT,
+  SUBSCRIBE_WINDOW_MS,
+  clientAddress,
+  isRateLimited,
+} from '../../lib/rate-limit';
 
 export const prerender = false;
 
@@ -22,11 +29,22 @@ function readEnv(name: string): string | undefined {
 
 function jsonResponse(status: NewsletterStatus): Response {
   const httpStatus =
-    status === 'ok' || status === 'exists' ? 200 : status === 'invalid' ? 400 : status === 'unconfigured' ? 503 : 502;
+    status === 'ok' || status === 'exists'
+      ? 200
+      : status === 'invalid'
+        ? 400
+        : status === 'limited'
+          ? 429
+          : status === 'unconfigured'
+            ? 503
+            : 502;
+
+  const headers = new Headers(JSON_HEADERS);
+  if (status === 'limited') headers.set('retry-after', '600');
 
   return new Response(JSON.stringify({ ok: httpStatus < 300, message: newsletterMessages[status] }), {
     status: httpStatus,
-    headers: JSON_HEADERS,
+    headers,
   });
 }
 
@@ -184,10 +202,19 @@ export const POST: APIRoute = async ({ request }) => {
     return respond(request, 'invalid', asForm);
   }
 
+  const ip = clientAddress(request);
+  if (ip && isRateLimited(`ip:${ip}`, SUBSCRIBE_IP_LIMIT, SUBSCRIBE_WINDOW_MS)) {
+    return respond(request, 'limited', asForm);
+  }
+
   if (honeypot.trim()) return respond(request, 'ok', asForm);
 
   const normalized = normalizeEmail(email);
   if (!isValidEmail(normalized)) return respond(request, 'invalid', asForm);
+
+  if (isRateLimited(`mail:${normalized}`, SUBSCRIBE_EMAIL_LIMIT, SUBSCRIBE_WINDOW_MS)) {
+    return respond(request, 'limited', asForm);
+  }
 
   const apiKey = readEnv('RESEND_API_KEY');
   const audienceId = readEnv('RESEND_AUDIENCE_ID');

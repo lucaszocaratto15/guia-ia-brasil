@@ -1,0 +1,23 @@
+---
+import { faviconUrl, initials } from '../lib/format';
+
+interface Props {
+  nome: string;
+  dominio: string;
+}
+
+const { nome, dominio } = Astro.props;
+---
+
+<span class="mark" data-initials={initials(nome)} aria-hidden="true">
+  <img
+    class="favicon"
+    src={faviconUrl(dominio)}
+    alt=""
+    width="64"
+    height="64"
+    loading="lazy"
+    decoding="async"
+    referrerpolicy="no-referrer"
+  />
+</span>

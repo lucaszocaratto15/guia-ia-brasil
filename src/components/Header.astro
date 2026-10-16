@@ -12,24 +12,11 @@ const links = [
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="logo" href="/">
-      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
-        <rect width="32" height="32" rx="8" fill="#f6f1e7"></rect>
-        <path fill="#11493a" d="M11 7.2h10c.9 0 1.6.7 1.6 1.6v15.4l-6.6-3.4-6.6 3.4V8.8c0-.9.7-1.6 1.6-1.6z"></path>
-      </svg>
-      <span>Guia IA <em>Brasil</em></span>
+      <span class="logo-mark" aria-hidden="true">IA</span>
+      <span>Guia IA <span class="logo-quiet">Brasil</span></span>
     </a>
-    <nav class="nav-desktop" aria-label="Principal">
-      {
-        links.map((link) => (
-          <a href={link.href} aria-current={link.current ? 'page' : undefined}>
-            {link.label}
-          </a>
-        ))
-      }
-    </nav>
-    <details class="nav-mobile">
-      <summary class="nav-summary">Menu</summary>
-      <nav class="nav-panel" aria-label="Principal">
+    <div class="header-actions">
+      <nav class="nav-desktop" aria-label="Principal">
         {
           links.map((link) => (
             <a href={link.href} aria-current={link.current ? 'page' : undefined}>
@@ -38,7 +25,34 @@ const links = [
           ))
         }
       </nav>
-    </details>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Usar tema escuro" aria-pressed="false">
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"></path>
+        </svg>
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" fill="currentColor"></circle>
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5 5l1.6 1.6M17.4 17.4 19 19M19 5l-1.6 1.6M6.6 17.4 5 19"
+          ></path>
+        </svg>
+      </button>
+      <details class="nav-mobile">
+        <summary class="nav-summary">Menu</summary>
+        <nav class="nav-panel" aria-label="Principal">
+          {
+            links.map((link) => (
+              <a href={link.href} aria-current={link.current ? 'page' : undefined}>
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+      </details>
+    </div>
   </div>
 </header>
 <script>
@@ -48,4 +62,34 @@ const links = [
       if (menu instanceof HTMLDetailsElement) menu.open = false;
     });
   });
+
+  const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const root = document.documentElement;
+
+  const resolved = () =>
+    root.dataset.theme === 'dark' || root.dataset.theme === 'light'
+      ? root.dataset.theme
+      : window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+
+  const sync = () => {
+    const dark = resolved() === 'dark';
+    if (!toggle) return;
+    toggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    toggle.setAttribute('aria-label', dark ? 'Usar tema claro' : 'Usar tema escuro');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const next = resolved() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('guia-tema', next);
+    } catch {
+      /* preferência fica só nesta página */
+    }
+    sync();
+  });
+
+  sync();
 </script>

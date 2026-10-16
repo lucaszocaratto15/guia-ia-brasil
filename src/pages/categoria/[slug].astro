@@ -61,6 +61,20 @@ const others = categories.filter((item) => item.slug !== category.slug);
       <p class="note">
         {category.ferramentas.length} {noun}
       </p>
+      <nav class="chips page-chips" aria-label="Categorias">
+        <a class="chip" href="/#diretorio">Todas</a>
+        {
+          categories.map((item) => (
+            <a
+              class="chip"
+              href={`/categoria/${item.slug}`}
+              aria-current={item.slug === category.slug ? 'page' : undefined}
+            >
+              {item.nome}
+            </a>
+          ))
+        }
+      </nav>
     </header>
     <ul class="grid">
       <SponsorCard />

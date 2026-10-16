@@ -48,6 +48,10 @@ export function formatDate(iso: string): string {
   return longDate.format(new Date(Date.UTC(year, month - 1, day)));
 }
 
+export function faviconUrl(domain: string): string {
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`;
+}
+
 export function hostname(url: string): string {
   try {
     return new URL(url).hostname.replace(/^www\./, '');

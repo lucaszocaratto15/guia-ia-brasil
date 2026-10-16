@@ -3,6 +3,7 @@ export const newsletterMessages = {
   exists: 'Este e-mail já está na lista. Obrigado!',
   invalid: 'Informe um e-mail válido.',
   unconfigured: 'A newsletter ainda não está configurada. Tente de novo em breve.',
+  limited: 'Muitas tentativas em pouco tempo. Espere alguns minutos e tente de novo.',
   error: 'Não conseguimos concluir a inscrição agora. Tente de novo em instantes.',
 } as const;
 
