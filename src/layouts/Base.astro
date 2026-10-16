@@ -33,7 +33,16 @@ const newsletterStatus = Astro.url.searchParams.get('newsletter');
     <link rel="alternate" hreflang="pt-BR" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#11493a" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+    <link rel="preconnect" href="https://www.google.com" />
+    <link rel="preconnect" href="https://t3.gstatic.com" crossorigin />
+    <script is:inline>
+      try {
+        var tema = localStorage.getItem('guia-tema');
+        if (tema === 'dark' || tema === 'light') document.documentElement.dataset.theme = tema;
+      } catch (e) {}
+    </script>
     <meta
       name="robots"
       content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large'}
@@ -67,5 +76,18 @@ const newsletterStatus = Astro.url.searchParams.get('newsletter');
     </main>
     <Newsletter status={newsletterStatus} />
     <Footer />
+    <script is:inline>
+      document.addEventListener(
+        'error',
+        function (event) {
+          var target = event.target;
+          if (!target || !target.classList || !target.classList.contains('favicon')) return;
+          var mark = target.closest('.mark');
+          target.remove();
+          if (mark) mark.classList.add('is-fallback');
+        },
+        true,
+      );
+    </script>
   </body>
 </html>

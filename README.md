@@ -6,7 +6,7 @@ O build gera HTML estático (páginas, `sitemap.xml`, `robots.txt`) e uma funç�
 
 ## Requisitos
 
-- Node.js 22 ou mais novo
+- Node.js 22.12 ou mais novo
 - npm
 
 ## Desenvolvimento
@@ -49,6 +49,7 @@ Abra `src/data/tools.json` e acrescente um objeto. Não invente preço: deixe `p
 - `portugues`: a interface está em português.
 - `brasileira`: a empresa é do Brasil.
 - A URL pública sai do nome (`/ferramenta/nome-da-ferramenta`). Renomear a ferramenta muda o endereço.
+- A seção “Novos lançamentos” mostra as últimas entradas deste arquivo. Acrescente a ferramenta no fim da lista para ela aparecer ali.
 - Uma categoria nova ganha página em `/categoria/...` sozinha. Para trocar o texto de apoio, edite [`src/data/categories.ts`](src/data/categories.ts). Sem esse texto, a página usa uma frase genérica.
 - O site não mostra `preco_inicial`, `http_status` nem `fonte`.
 
@@ -63,6 +64,19 @@ Abra `src/data/tools.json` e acrescente um objeto. Não invente preço: deixe `p
 Copie [`.env.example`](.env.example). Não commite chave nenhuma.
 
 `/api/subscribe` envia o e-mail para o Audience pela API do Resend (`POST /audiences/{id}/contacts`). Se esse endpoint não existir mais, a função cria o contato e associa ao Segment com o mesmo ID. E-mail inválido, lista já inscrita e falha de rede devolvem mensagem em português. Sem as duas variáveis, a resposta é: “A newsletter ainda não está configurada. Tente de novo em breve.”
+
+## Proteção contra abuso
+
+O formulário manda um campo oculto `fax` (honeypot). Se vier preenchido, a função responde como se a inscrição tivesse dado certo e não chama a Resend.
+
+Além disso, cada instância da função limita tentativas na memória:
+
+- 5 envios a cada 10 minutos por IP, lido de `x-forwarded-for`, `x-real-ip` ou `cf-connecting-ip` (vale o primeiro endereço). Sem um desses cabeçalhos, o limite por IP não se aplica.
+- 3 envios do mesmo e-mail na mesma janela.
+
+Acima do limite, a resposta é HTTP 429: “Muitas tentativas em pouco tempo. Espere alguns minutos e tente de novo.” O contador zera quando a instância reinicia e não é compartilhado entre instâncias.
+
+Na Vercel, ligue o Vercel Firewall no projeto. Ele bloqueia bots e abuso na borda e é a proteção principal. O limite deste código é um complemento.
 
 ## Contato e anúncios
 

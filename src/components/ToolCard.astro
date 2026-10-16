@@ -1,7 +1,7 @@
 ---
 import type { Tool } from '../data/tools';
-import { initials } from '../lib/format';
 import Badges from './Badges.astro';
+import ToolMark from './ToolMark.astro';
 
 interface Props {
   tool: Tool;
@@ -14,12 +14,16 @@ const Title = level;
 
 <article class="card">
   <div class="card-top">
-    <span class="avatar" aria-hidden="true">{initials(tool.nome)}</span>
-    <div>
+    <ToolMark nome={tool.nome} dominio={tool.dominio} />
+    <div class="card-id">
       <Title>
         <a href={`/ferramenta/${tool.slug}`}>{tool.nome}</a>
       </Title>
-      <a class="cat-link" href={`/categoria/${tool.categoriaSlug}`}>{tool.categoria}</a>
+      <p class="card-meta">
+        <a class="cat-link" href={`/categoria/${tool.categoriaSlug}`}>{tool.categoria}</a>
+        <span class="dot" aria-hidden="true">·</span>
+        <span class="domain">{tool.dominio}</span>
+      </p>
     </div>
   </div>
   <p class="desc">{tool.descricao}</p>

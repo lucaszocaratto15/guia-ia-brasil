@@ -2,9 +2,9 @@
 import Badges from '../../components/Badges.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import ToolCard from '../../components/ToolCard.astro';
+import ToolMark from '../../components/ToolMark.astro';
 import { siteName } from '../../config';
 import { getTool, relatedTools, tools } from '../../data/tools';
-import { initials } from '../../lib/format';
 import Base from '../../layouts/Base.astro';
 import { absoluteUrl, breadcrumbLd } from '../../lib/seo';
 
@@ -75,7 +75,7 @@ const jsonLd = {
     <article class="sheet">
       <p class="eyebrow">Ferramenta</p>
       <div class="card-top">
-        <span class="avatar" aria-hidden="true">{initials(tool.nome)}</span>
+        <ToolMark nome={tool.nome} dominio={tool.dominio} />
         <h1>{tool.nome}</h1>
       </div>
       <Badges brasileira={tool.brasileira} portugues={tool.portugues} />

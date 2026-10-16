@@ -1,7 +1,8 @@
 const root = document.querySelector<HTMLElement>('#diretorio');
 if (root) {
-  const form = root.querySelector<HTMLFormElement>('#form-busca');
-  const input = root.querySelector<HTMLInputElement>('#busca');
+  const form = document.querySelector<HTMLFormElement>('#form-busca');
+  const input = document.querySelector<HTMLInputElement>('#busca');
+  const novos = document.querySelector<HTMLElement>('#novos');
   const chips = [...root.querySelectorAll<HTMLButtonElement>('[data-chip]')];
   const brasilButton = root.querySelector<HTMLButtonElement>('[data-filter="brasil"]');
   const portuguesButton = root.querySelector<HTMLButtonElement>('[data-filter="portugues"]');
@@ -37,8 +38,10 @@ if (root) {
     brasilButton?.setAttribute('aria-pressed', brasil ? 'true' : 'false');
     portuguesButton?.setAttribute('aria-pressed', portugues ? 'true' : 'false');
 
+    const filtered = query !== '' || category !== '' || brasil || portugues;
+    if (novos) novos.hidden = filtered;
+
     if (count) {
-      const filtered = query !== '' || category !== '' || brasil || portugues;
       count.textContent = filtered
         ? `Exibindo ${visible} de ${items.length} ferramentas`
         : `${items.length} ferramentas`;

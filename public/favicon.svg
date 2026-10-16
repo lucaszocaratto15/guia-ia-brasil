@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#11493a"/>
-  <path fill="#f6f1e7" d="M11 7.2h10c.9 0 1.6.7 1.6 1.6v15.4l-6.6-3.4-6.6 3.4V8.8c0-.9.7-1.6 1.6-1.6z"/>
+  <rect width="32" height="32" rx="8" fill="#121316"/>
+  <text x="16" y="21" text-anchor="middle" font-family="Inter, ui-sans-serif, sans-serif" font-size="12" font-weight="700" fill="#ffffff">IA</text>
 </svg>

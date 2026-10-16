@@ -56,6 +56,7 @@ for (const { item } of ordered) {
 }
 
 const toolSlugs = new Set<string>();
+const addedOrder = new Map<string, number>();
 
 export const tools: Tool[] = ordered.map(({ item, index }) => {
   if (!item.nome?.trim() || !item.url?.trim() || !item.categoria?.trim() || !item.descricao?.trim()) {
@@ -64,10 +65,12 @@ export const tools: Tool[] = ordered.map(({ item, index }) => {
 
   const urlFinal = item.url_final?.trim() || item.url;
   const verificadoEm = item.verificado_em?.trim() || undefined;
+  const slug = uniqueSlug(slugify(item.nome), toolSlugs);
+  addedOrder.set(slug, index);
 
   return {
     nome: item.nome.trim(),
-    slug: uniqueSlug(slugify(item.nome), toolSlugs),
+    slug,
     url: item.url,
     urlFinal,
     dominio: hostname(urlFinal),
@@ -94,6 +97,11 @@ export const categories: Category[] = [...grouped.entries()].map(([nome, ferrame
   descricao: categoryBlurb(nome),
   ferramentas,
 }));
+
+/** Últimas entradas de tools.json (quem adiciona uma ferramenta, acrescenta no fim do arquivo). */
+export const recentTools: Tool[] = [...tools]
+  .sort((a, b) => (addedOrder.get(b.slug) ?? 0) - (addedOrder.get(a.slug) ?? 0))
+  .slice(0, 8);
 
 export const stats = {
   total: tools.length,

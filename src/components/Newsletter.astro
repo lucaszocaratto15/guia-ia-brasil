@@ -11,12 +11,15 @@ const message = isNewsletterStatus(status) ? newsletterMessages[status] : '';
 
 <section class="newsletter" id="newsletter" aria-labelledby="newsletter-titulo">
   <div class="wrap">
-    <p class="kicker">Newsletter</p>
-    <h2 id="newsletter-titulo">Uma seleção curta, toda semana</h2>
-    <p class="lede">
-      Ferramentas de IA úteis para contadores e donos de PME. Sem ranking genérico e sem encher a caixa de entrada.
-    </p>
-    <form class="newsletter-form" data-newsletter method="post" action="/api/subscribe">
+    <div class="newsletter-panel">
+      <div>
+        <p class="kicker">Newsletter</p>
+        <h2 id="newsletter-titulo">Uma seleção curta, toda semana</h2>
+        <p class="lede">
+          Ferramentas de IA úteis para contadores e donos de PME. Sem ranking genérico e sem encher a caixa de entrada.
+        </p>
+      </div>
+      <form class="newsletter-form" data-newsletter method="post" action="/api/subscribe">
       <label>
         <span>E-mail</span>
         <input
@@ -38,8 +41,9 @@ const message = isNewsletterStatus(status) ? newsletterMessages[status] : '';
       </div>
       <button type="submit">Quero receber</button>
       <p class="form-status" data-newsletter-status role="status">{message}</p>
+      <p class="fine">Usamos seu e-mail só para enviar a newsletter.</p>
     </form>
-    <p class="fine">Usamos seu e-mail só para enviar a newsletter.</p>
+    </div>
   </div>
 </section>
 <script>
