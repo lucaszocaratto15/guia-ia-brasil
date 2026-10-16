@@ -1,0 +1,84 @@
+---
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { contactEmail, contactMailto, siteName } from '../config';
+import { categories } from '../data/tools';
+import Base from '../layouts/Base.astro';
+import { absoluteUrl, breadcrumbLd } from '../lib/seo';
+
+const path = '/sugerir';
+const title = `Sugira uma ferramenta | ${siteName}`;
+const description =
+  'Indique uma ferramenta de IA útil para PMEs, contadores ou empresários no Brasil.';
+const mailto = contactMailto('Sugestão de ferramenta para o Guia IA Brasil');
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      name: title,
+      description,
+      url: absoluteUrl(Astro.site, path),
+      inLanguage: 'pt-BR',
+    },
+    breadcrumbLd([
+      { name: 'Início', url: absoluteUrl(Astro.site, '/') },
+      { name: 'Sugira uma ferramenta', url: absoluteUrl(Astro.site, path) },
+    ]),
+  ],
+};
+---
+
+<Base title={title} description={description} path={path} jsonLd={jsonLd}>
+  <div class="wrap page-head">
+    <Breadcrumb items={[{ name: 'Início', href: '/' }, { name: 'Sugira uma ferramenta' }]} />
+    <div class="prose">
+      <p class="eyebrow">Contribuição</p>
+      <h1>Sugira uma ferramenta</h1>
+      <p class="lede">
+        Faltou algo que escritórios contábeis, PMEs ou empresários usam de verdade? Manda o nome e o site. A sugestão abre
+        um e-mail para a nossa caixa de contato.
+      </p>
+    </div>
+    <form
+      id="sugerir"
+      class="form"
+      method="post"
+      enctype="text/plain"
+      action={mailto}
+      data-email={contactEmail}
+    >
+      <label>
+        Nome da ferramenta
+        <input name="nome" type="text" required maxlength="120" autocomplete="off" />
+      </label>
+      <label>
+        Site
+        <input name="site" type="url" required maxlength="300" placeholder="https://" inputmode="url" />
+      </label>
+      <label>
+        Categoria
+        <select name="categoria" required>
+          <option value="">Escolha uma categoria</option>
+          {categories.map((category) => <option value={category.nome}>{category.nome}</option>)}
+          <option value="Outra">Outra</option>
+        </select>
+      </label>
+      <label>
+        Por que ela ajuda PMEs ou contadores no Brasil?
+        <textarea name="motivo" required maxlength="2000"></textarea>
+      </label>
+      <label>
+        Seu e-mail <span class="note">(opcional, se quiser uma resposta)</span>
+        <input name="email" type="email" maxlength="254" autocomplete="email" />
+      </label>
+      <button class="button" type="submit">Enviar sugestão</button>
+      <p id="sugerir-status" class="form-status" role="status"></p>
+    </form>
+    <p class="note">
+      Prefere escrever direto? <a href={mailto}>{contactEmail}</a>
+    </p>
+  </div>
+</Base>
+<script>
+  import '../scripts/suggest.ts';
+</script>

@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+
+const title = 'Página não encontrada | Guia IA Brasil';
+const description = 'Essa página não está no Guia IA Brasil.';
+---
+
+<Base title={title} description={description} path="/404" noindex={true}>
+  <div class="wrap page-head prose">
+    <p class="eyebrow">404</p>
+    <h1>Essa página não está no guia</h1>
+    <p class="lede">O endereço pode ter mudado ou a ferramenta ainda não foi publicada.</p>
+    <p class="actions">
+      <a class="button" href="/">Voltar ao início</a>
+      <a href="/sugerir">Sugerir uma ferramenta</a>
+    </p>
+  </div>
+</Base>

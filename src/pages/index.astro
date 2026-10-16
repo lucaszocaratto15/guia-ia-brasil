@@ -1,0 +1,60 @@
+---
+import Directory from '../components/Directory.astro';
+import Base from '../layouts/Base.astro';
+import { siteDescription, siteName } from '../config';
+import { categories, stats, tools } from '../data/tools';
+import { absoluteUrl, itemListLd, websiteLd } from '../lib/seo';
+
+const origin = Astro.site?.href ?? 'https://guiaiabrasil.com.br/';
+const title = 'Guia IA Brasil: ferramentas de IA para PMEs e contadores';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    websiteLd(origin, siteName, siteDescription),
+    itemListLd(
+      tools.map((tool) => ({
+        nome: tool.nome,
+        descricao: tool.descricao,
+        url: absoluteUrl(Astro.site, `/ferramenta/${tool.slug}`),
+      })),
+    ),
+  ],
+};
+---
+
+<Base title={title} description={siteDescription} path="/" jsonLd={jsonLd}>
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Para PMEs, contadores e empresários</p>
+        <h1>Ferramentas de IA para quem empreende no Brasil</h1>
+        <p class="lede">
+          Um guia direto ao ponto: ERP, fiscal, financeiro, atendimento, marketing e assistentes. Dá para ver o que é feito
+          no Brasil e o que tem interface em português.
+        </p>
+      </div>
+      <ul class="stats">
+        <li><strong>{stats.total}</strong> <span>ferramentas</span></li>
+        <li><strong>{stats.brasileiras}</strong> <span>feitas no Brasil</span></li>
+        <li><strong>{stats.portugues}</strong> <span>em português</span></li>
+        <li><strong>{stats.categorias}</strong> <span>categorias</span></li>
+      </ul>
+    </header>
+    <Directory />
+    <section id="categorias" aria-labelledby="categorias-titulo">
+      <h2 id="categorias-titulo" class="section-title">Explorar por categoria</h2>
+      <ul class="cat-index">
+        {
+          categories.map((category) => (
+            <li>
+              <a href={`/categoria/${category.slug}`}>
+                {category.nome}
+                <span>{category.ferramentas.length}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</Base>

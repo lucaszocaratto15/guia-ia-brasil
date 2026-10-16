@@ -1,0 +1,91 @@
+---
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import SponsorCard from '../../components/SponsorCard.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { siteName } from '../../config';
+import { categories, getCategory } from '../../data/tools';
+import Base from '../../layouts/Base.astro';
+import { absoluteUrl, breadcrumbLd, itemListLd } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { slug: category.slug } }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) throw new Error('Categoria sem slug.');
+const category = getCategory(slug);
+if (!category) throw new Error(`Categoria não encontrada: ${slug}`);
+
+const path = `/categoria/${category.slug}`;
+const canonical = absoluteUrl(Astro.site, path);
+const home = absoluteUrl(Astro.site, '/');
+const title = `${category.nome} | ${siteName}`;
+const description = `${category.descricao} ${category.ferramentas.length} ferramentas no Guia IA Brasil.`;
+const noun = category.ferramentas.length === 1 ? 'ferramenta' : 'ferramentas';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      name: title,
+      description,
+      url: canonical,
+      inLanguage: 'pt-BR',
+      isPartOf: { '@type': 'WebSite', name: siteName, url: home },
+    },
+    breadcrumbLd([
+      { name: 'Início', url: home },
+      { name: category.nome, url: canonical },
+    ]),
+    itemListLd(
+      category.ferramentas.map((tool) => ({
+        nome: tool.nome,
+        descricao: tool.descricao,
+        url: absoluteUrl(Astro.site, `/ferramenta/${tool.slug}`),
+      })),
+    ),
+  ],
+};
+
+const others = categories.filter((item) => item.slug !== category.slug);
+---
+
+<Base title={title} description={description} path={path} jsonLd={jsonLd}>
+  <div class="wrap">
+    <header class="page-head">
+      <Breadcrumb items={[{ name: 'Início', href: '/' }, { name: category.nome }]} />
+      <p class="eyebrow">Categoria</p>
+      <h1>{category.nome}</h1>
+      <p class="lede">{category.descricao}</p>
+      <p class="note">
+        {category.ferramentas.length} {noun}
+      </p>
+    </header>
+    <ul class="grid">
+      <SponsorCard />
+      {
+        category.ferramentas.map((tool) => (
+          <li>
+            <ToolCard tool={tool} />
+          </li>
+        ))
+      }
+    </ul>
+    <section aria-labelledby="outras-titulo">
+      <h2 id="outras-titulo" class="section-title">Outras categorias</h2>
+      <ul class="cat-index">
+        {
+          others.map((item) => (
+            <li>
+              <a href={`/categoria/${item.slug}`}>
+                {item.nome}
+                <span>{item.ferramentas.length}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</Base>

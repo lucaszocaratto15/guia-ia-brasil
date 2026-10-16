@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import { siteDescription, siteName } from '../config';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import JsonLd from '../components/JsonLd.astro';
+import Newsletter from '../components/Newsletter.astro';
+import SponsorBanner from '../components/SponsorBanner.astro';
+import { absoluteUrl } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description?: string;
+  path: string;
+  noindex?: boolean;
+  jsonLd?: unknown;
+}
+
+const { title, description = siteDescription, path, noindex = false, jsonLd } = Astro.props;
+const canonical = absoluteUrl(Astro.site, path);
+const image = absoluteUrl(Astro.site, '/og.png');
+const newsletterStatus = Astro.url.searchParams.get('newsletter');
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="pt-BR" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#11493a" />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large'}
+    />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Guia IA Brasil, ferramentas de IA para PMEs e contadores" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    {jsonLd && <JsonLd data={jsonLd} />}
+  </head>
+  <body>
+    <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+    <Header />
+    <div class="banner-bar">
+      <div class="wrap">
+        <SponsorBanner />
+      </div>
+    </div>
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Newsletter status={newsletterStatus} />
+    <Footer />
+  </body>
+</html>

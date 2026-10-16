@@ -1,0 +1,30 @@
+---
+import type { Tool } from '../data/tools';
+import { initials } from '../lib/format';
+import Badges from './Badges.astro';
+
+interface Props {
+  tool: Tool;
+  level?: 'h2' | 'h3';
+}
+
+const { tool, level = 'h2' } = Astro.props;
+const Title = level;
+---
+
+<article class="card">
+  <div class="card-top">
+    <span class="avatar" aria-hidden="true">{initials(tool.nome)}</span>
+    <div>
+      <Title>
+        <a href={`/ferramenta/${tool.slug}`}>{tool.nome}</a>
+      </Title>
+      <a class="cat-link" href={`/categoria/${tool.categoriaSlug}`}>{tool.categoria}</a>
+    </div>
+  </div>
+  <p class="desc">{tool.descricao}</p>
+  <Badges brasileira={tool.brasileira} portugues={tool.portugues} />
+  <a class="visit" href={tool.urlFinal} target="_blank" rel="noopener noreferrer">
+    Visitar site<span class="sr-only"> de {tool.nome} (abre em nova aba)</span>
+  </a>
+</article>
