@@ -1021,5 +1021,44 @@
   "preco_inicial": null,
   "fonte": "https://irisgo.ai",
   "verificado_em": "2026-10-16"
+ },
+ {
+  "nome": "Zesto",
+  "url": "https://www.zesto.menu/pt-BR/home/",
+  "url_final": "https://www.zesto.menu/pt-BR/home/",
+  "http_status": 200,
+  "categoria": "Atendimento e WhatsApp",
+  "descricao": "Plataforma SaaS com IA da 99 para restaurantes: centraliza pedidos de salão, WhatsApp e iFood/99Food, com agente no WhatsApp 24h e o assistente Zeca para análises e campanhas.",
+  "portugues": true,
+  "brasileira": true,
+  "preco_inicial": 199,
+  "fonte": "https://revistapegn.globo.com/startups/noticia/2026/10/99-entra-na-disputa-de-softwares-para-restaurantes-com-plataforma-de-ia.ghtml",
+  "verificado_em": "2026-10-19"
+ },
+ {
+  "nome": "WK Flow.AI",
+  "url": "https://wk.com.br/lp/wk-flow-ai/",
+  "url_final": "https://wk.com.br/lp/wk-flow-ai/",
+  "http_status": 200,
+  "categoria": "Automação e Agentes",
+  "descricao": "Plataforma visual da WK para criar e governar agentes de IA e hiperautomação integrados ao ERP WK Radar, com monitoramento de eventos, ações autorizadas e aprovação humana.",
+  "portugues": true,
+  "brasileira": true,
+  "preco_inicial": null,
+  "fonte": "https://itsection.com.br/2026/10/06/wk-lanca-flow-ai-e-transforma-o-erp-em-uma-plataforma-que-monitora-interpreta-e-age/",
+  "verificado_em": "2026-10-19"
+ },
+ {
+  "nome": "PNBOX+",
+  "url": "https://pnboxmais.sebrae.com.br/",
+  "url_final": "https://pnboxmais.sebrae.com.br/",
+  "http_status": 200,
+  "categoria": "ERP e Gestão com IA",
+  "descricao": "Plataforma gratuita do Sebrae de planejamento de negócios, com mentoria conversacional por IA (Gemini/Google Cloud) para micro e pequenos empreendedores.",
+  "portugues": true,
+  "brasileira": true,
+  "preco_inicial": 0,
+  "fonte": "https://mercadodeti.com.br/inteligencia-artificial/sebrae-google-cloud-pnbox-ia-gemini-planejamento",
+  "verificado_em": "2026-10-19"
  }
 ]
