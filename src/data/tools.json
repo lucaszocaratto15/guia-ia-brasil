@@ -1060,5 +1060,18 @@
   "preco_inicial": 0,
   "fonte": "https://mercadodeti.com.br/inteligencia-artificial/sebrae-google-cloud-pnbox-ia-gemini-planejamento",
   "verificado_em": "2026-10-19"
+ },
+ {
+  "nome": "Phame",
+  "url": "https://phame.com.br",
+  "url_final": "https://phame.com.br/",
+  "http_status": 200,
+  "categoria": "Marketing e Conteúdo",
+  "descricao": "Mede toda semana como ChatGPT, Gemini, Perplexity, Claude e Google AI Mode citam a sua marca e entrega um plano de ação de GEO/AEO para aparecer nas respostas.",
+  "portugues": true,
+  "brasileira": true,
+  "preco_inicial": 697,
+  "fonte": "https://phame.com.br/informacoes-para-ia",
+  "verificado_em": "2026-10-26"
  }
 ]
