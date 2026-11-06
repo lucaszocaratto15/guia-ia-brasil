@@ -1060,5 +1060,18 @@
   "preco_inicial": 0,
   "fonte": "https://mercadodeti.com.br/inteligencia-artificial/sebrae-google-cloud-pnbox-ia-gemini-planejamento",
   "verificado_em": "2026-10-19"
+ },
+ {
+  "nome": "RefVid",
+  "url": "https://refvid.com/pt",
+  "url_final": "https://refvid.com/pt",
+  "http_status": 200,
+  "categoria": "Marketing e Conteúdo",
+  "descricao": "Transforma de 1 a 10 fotos de um produto em vídeos com IA de 3 a 30 segundos para lojas virtuais e anúncios, mantendo rótulo, embalagem e logo iguais em todas as cenas.",
+  "portugues": true,
+  "brasileira": false,
+  "preco_inicial": null,
+  "fonte": "https://refvid.com/pt/pricing",
+  "verificado_em": "2026-11-06"
  }
 ]
